@@ -228,7 +228,7 @@ class DataProcessor:
                     # 定期的にコミット
                     if processed % commit_interval == 0:
                         session.commit()
-                        self.logger.debug(f"コミット完了: {processed} rows")
+                        self.logger.log_commit(processed, total_chunks)
 
                     # 進捗ログ
                     if processed % progress_interval == 0:
@@ -239,6 +239,7 @@ class DataProcessor:
 
                 # 最終コミット
                 session.commit()
+                self.logger.log_commit(processed, total_chunks)
 
             except Exception as e:
                 session.rollback()

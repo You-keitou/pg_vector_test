@@ -121,3 +121,16 @@ class DualLogger:
             self.info(f"  - Sample text: {embedding_info['sample_text']}")
         else:
             self.warning("⚠️  No embeddings found")
+
+    def log_commit(self, processed_rows: int, total_chunks: int):
+        """コミット時のログ"""
+        self.info(f"💾 データベースにコミット完了: {processed_rows} 行処理済み, {total_chunks} チャンク作成済み")
+
+    def log_batch_split(self, total_texts: int, batch_size: int):
+        """バッチ分割時のログ"""
+        num_batches = (total_texts + batch_size - 1) // batch_size
+        self.info(f"📦 大きなバッチを分割: {total_texts} テキスト → {num_batches} バッチ (サイズ: {batch_size})")
+
+    def log_rate_limit_retry(self, attempt: int, wait_time: float):
+        """Rate limit再試行時のログ"""
+        self.warning(f"⏳ Rate limit検出 - {wait_time:.1f}秒後に再試行 (試行回数: {attempt}/5)")
